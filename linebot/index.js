@@ -32,6 +32,40 @@ function handleEvent(event) {
     return Promise.resolve(null);
   }
 
+  // 「メニュー」って送ってきたらFlexを返す
+  if (event.message.text === 'メニュー') {
+    const flexMessage = {
+      type: 'flex',
+      altText: '限定商品のお知らせ！',
+      contents: {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: '今だけの限定商品！',
+              weight: 'bold',
+              size: 'lg'
+            },
+            {
+              type: 'button',
+              action: {
+                type: 'uri',
+                label: 'Webで見る',
+                uri: 'https://linebot-test-eu32.onrender.com/'
+              },
+              style: 'primary'
+            }
+          ]
+        }
+      }
+    };
+
+    return client.replyMessage(event.replyToken, flexMessage);
+  }
+
   return client.replyMessage(event.replyToken, {
     type: 'text',
     text: `「${event.message.text}」ですね！`,
